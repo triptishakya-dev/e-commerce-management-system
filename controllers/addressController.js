@@ -1,7 +1,14 @@
-export const address = async (req, res) => {
-  try {
-    const { name, phone, street, city, state, pincode, landmark } = req.body;
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
+
+export const postaddress = async (req, res) => {
+  try {
+    console.log("api is running");
+
+    const { userId, name, phone, street, city, state, pincode, landmark } = req.body;
+
+    console.log(req.body);
     if (
       !name ||
       !phone ||
@@ -12,12 +19,15 @@ export const address = async (req, res) => {
       !landmark
     ) {
       console.log("all field must be require");
-      res.status(400).json({ message: "all require field must be provided" });
+      return res
+        .status(400)
+        .json({ message: "all require field must be provided" });
     }
 
-    const newaddress = await prisma.address.create({
+    const newapostddress = await prisma.Address.create({
       data: {
         name,
+        userId,
         phone,
         street,
         city,
@@ -27,22 +37,14 @@ export const address = async (req, res) => {
       },
     });
 
+    console.log(newapostddress);
 
-    console.log("newaddress");
-
-  return  res.status(201).json({
-    message: "address added sucessfully",
-    address: newaddress,
-  })
-
-
-
-
-
-
-
-
+    return res.status(201).json({
+      message: "address added sucessfully",
+      postaddress: newapostddress,
+    });
   } catch (error) {
-    console.log("error")
+    console.log("error");
+    res.status(500).json({ message: "Internal server error" });
   }
 };
