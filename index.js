@@ -1,6 +1,7 @@
 import express from "express"
 import addressRoutes from "./routers/addressRoutes.js";
 import orderRoutes from "./routers/orderRoutes.js";
+import productRoutes from "./routers/productRoutes.js";
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(express.json())
 
 app.use("/", addressRoutes);
 app.use("/", orderRoutes);
+app.use("/", productRoutes);
 
 app.listen(port , () =>{
 console.log("my port is listening")
