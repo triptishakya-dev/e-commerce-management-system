@@ -1,5 +1,6 @@
-import { Prisma } from "@prisma/client";
-const Prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const postorder = (req, res) => {
   try {
@@ -29,7 +30,7 @@ export const postorder = (req, res) => {
         .json({ message: "All required fields must be provided" });
     }
 
-    const newOrder = Prisma.postorder.create({
+    const newOrder = prisma.Order.create({
       orderNumber,
       userId,
       addressId,
