@@ -3,18 +3,9 @@ const prisma = new PrismaClient();
 
 export const addproduct = (req, res) => {
   try {
-    console.log(req.body)
-    const {
-      name,
-      brand,
-      sku,
-      description,
-      price,
-      stock,
-      category,
-      taxRate,
-      isActive,
-    } = req.body;
+    console.log(req.body);
+    const { name, brand, sku, description, price, stock, category, taxRate } =
+      req.body;
 
     if (
       !name ||
@@ -24,14 +15,13 @@ export const addproduct = (req, res) => {
       !price ||
       !stock ||
       !category ||
-      !taxRate ||
-      !isActive
+      !taxRate
     ) {
       return res
         .status(400)
         .json({ message: "all require field must be provided" });
     }
-
+    console.log("data is seaving in database");
     const newproduct = prisma.Product.create({
       name,
       brand,
@@ -41,9 +31,13 @@ export const addproduct = (req, res) => {
       stock,
       category,
       taxRate,
-      isActive,
     });
+    if (!newproduct) {
+      return res.status(400).json({ error: "product not  created" });
+    }
 
+    console.log("data is savedd");
+    console.log(newproduct)
     return res.status(201).json({
       message: "product created successfully",
       addproduct: newproduct,
